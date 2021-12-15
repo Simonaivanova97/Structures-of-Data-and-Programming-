@@ -28,64 +28,28 @@ void print(node<T>* start){
 
 template <typename T>
 node<T>* reverseList(node<T>* start){
-    node<T>* startRev=NULL;
-    if(start && start->link){
-        node<T>* previousNode=NULL;
-        startRev=new node<T>;
-        assert(startRev!=NULL);
-        startRev->inf=start->inf;
-        startRev->link=NULL;
-        previousNode=startRev;
+    node<T>* reverseStart=NULL,*previousNode=NULL;
+    while(start){
+        reverseStart=new node<T>;
+        assert(reverseStart!=NULL);
+        reverseStart->inf=start->inf;
+        reverseStart->link=previousNode;
+        previousNode=reverseStart;
         start=start->link;
-        while(start){
-            startRev=new node<T>;
-            assert(startRev!=NULL);
-            startRev->inf=start->inf;
-            startRev->link=previousNode;
-            previousNode=startRev;
-            start=start->link;
-        }
-        previousNode=NULL;
-        delete previousNode;
     }
-    else{
-        startRev=start;
-    }
-    return startRev;
+    previousNode=NULL;
+    delete previousNode;
+    return reverseStart;
 }
 
 template <typename T>
 void mirror(node<T>*& start){
-    if(start){
-        node<T>* revStart=reverseList(start);
-        if(start->link){
-            node<T>* copyStart=start, *previousNode=NULL,* newNode=NULL;
-            while(copyStart->link){
-                copyStart=copyStart->link;
-            }
-            previousNode=copyStart;
-            while(revStart){
-                newNode=new node<T>;
-                assert(newNode!=NULL);
-                newNode->inf=revStart->inf;
-                newNode->link=NULL;
-                previousNode->link=newNode;
-                previousNode=newNode;
-                revStart=revStart->link;
-            }
-            delete revStart;
-            copyStart=NULL;
-            delete copyStart;
-            previousNode=NULL;
-            delete previousNode;
-            newNode=NULL;
-            delete newNode;
+    node<T>* copyStart=start, *reverseStart=reverseList(start);
+    if(copyStart){
+        while(copyStart->link){
+            copyStart=copyStart->link;
         }
-        else{
-            start->link=new node<T>;
-            start->link->inf=revStart->inf;
-            start->link->link=NULL;
-        }
+        copyStart->link=reverseStart;
     }
 }
 
