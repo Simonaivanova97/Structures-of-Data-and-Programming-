@@ -25,3 +25,6 @@ pass <br />
 dog <br />
 smile-eat-tall <br />
 pass-street-taxi-ink <br />
+
+### Демонстрация: ###
+![](/TasksFromAStateExam/Task2-August2020/demonstration.gif)
