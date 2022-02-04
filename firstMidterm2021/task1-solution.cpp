@@ -80,7 +80,6 @@ void concatSimiralStackElements(node<stack<int> >*& start){
                 }
                 node<stack<int>>* toDelete=copyStart->link;
                 copyStart->link=toDelete->link;
-                toDelete=NULL;
                 delete toDelete;
             }
             else{
@@ -89,6 +88,17 @@ void concatSimiralStackElements(node<stack<int> >*& start){
         }
     }
 }
+
+template <typename T>
+void deleteList(node<T>*& start){
+    node<T>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->link;
+        delete toDelete;
+    }
+}
+
 int main(){
     stack<int> s1,s2,s3,s4,s5,s6;
     s1.push(2);
@@ -129,5 +139,8 @@ int main(){
     cout<<"\n---After concat simiral stack elements---"<<endl;
     concatSimiralStackElements(start);
     print(start);
+    
+    deleteList(start);
+
     return 0;
 }
