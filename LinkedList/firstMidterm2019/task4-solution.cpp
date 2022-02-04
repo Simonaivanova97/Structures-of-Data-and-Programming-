@@ -37,8 +37,6 @@ node<T>* reverseList(node<T>* start){
         previousNode=reverseStart;
         start=start->link;
     }
-    previousNode=NULL;
-    delete previousNode;
     return reverseStart;
 }
 
@@ -50,6 +48,16 @@ void mirror(node<T>*& start){
             copyStart=copyStart->link;
         }
         copyStart->link=reverseStart;
+    }
+}
+
+template <typename T>
+void deleteList(node<T>*& start){
+    node<T>* toDelete=NULL;
+    while (start) {
+        toDelete=start;
+        start=start->link;
+        delete toDelete;
     }
 }
 
@@ -88,5 +96,8 @@ int main(){
     cout<<"\n---Mirror---"<<endl;
     mirror(start);
     print(start);
+    
+    deleteList(start);
+
     return 0;
 }
