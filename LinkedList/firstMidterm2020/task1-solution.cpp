@@ -58,6 +58,16 @@ T reduce(Node<T>* start, T (*f)(const T&, const T&)){
     }
 }
 
+template <typename T>
+void deleteList(Node<T>*& start){
+    Node<T>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->next;
+        delete toDelete;
+    }
+}
+
 int main(){
     
     Node<double>* start=NULL, *first=NULL, *second=NULL, *thirth=NULL;
@@ -117,6 +127,9 @@ int main(){
     cout<<"Apply function concat of list: ";
     print(start2);
     cout<<" and result is: "<<reduce(start2, &concatStr)<<endl;
+    
+    deleteList(start);
+    deleteList(start2);
     return 0;
 }
 
