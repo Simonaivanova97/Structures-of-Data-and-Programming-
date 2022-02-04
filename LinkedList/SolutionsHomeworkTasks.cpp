@@ -156,7 +156,7 @@ node<T>* concat(node<T>* l1, node<T>* l2){
             previousNode=newNode;
             l2=l2->link;
         }
-        delete newNode;
+        //delete newNode;
     }
     else{
         start=l2;
@@ -336,6 +336,17 @@ bool palindrom(node<T>* start){
     }
     return isPalindrome;
 }
+
+template <typename T>
+void deleteList(node<T>*& start){
+    node<T>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->link;
+        delete toDelete;
+    }
+}
+
 int main() {
     
     node<int>* start=NULL, *first=NULL, *second=NULL, *thirth=NULL, *fourth=NULL, *fifth=NULL, *sixth=NULL;
@@ -450,6 +461,7 @@ int main() {
         cout<<"> No"<<endl;
     }
     
-    delete start, first, second, thirth, fourth, fifth, sixth, start2, first2, second2, thi, fourth2;
+    deleteList(start);
+    deleteList(start2);
     return 0;
 }
