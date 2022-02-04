@@ -46,10 +46,6 @@ node* readCyclicList(){
         }while(strcmp(answer,"N")!=0);
         previousNode->link=start;
     }
-    newNode=NULL;
-    delete newNode;
-    previousNode=NULL;
-    delete previousNode;
     return start;
 }
 
@@ -103,13 +99,7 @@ void lexicographicSmallestOrder(node*& start){
                 pointerToMin->inf=temp;
             }
             copyStart=copyStart->link;
-            next=NULL;
-            delete next;
-            pointerToMin=NULL;
-            delete pointerToMin;
         }
-        copyStart=NULL;
-        delete copyStart;
     }
 }
 
@@ -122,7 +112,6 @@ void unite(node*& start){
                 copyStart->inf+=copyStart->link->inf;
                 node* toDelete=copyStart->link;
                 copyStart->link=toDelete->link;
-                toDelete=NULL;
                 delete toDelete;
             }
             else{
@@ -134,13 +123,24 @@ void unite(node*& start){
             copyStart->inf+=start->inf;
             node* toDelete=start;
             copyStart->link=toDelete->link;
-            toDelete=NULL;
             delete toDelete;
             start=copyStart;
         }
-        copyStart=NULL;
-        delete copyStart;
         lexicographicSmallestOrder(start);
+    }
+}
+
+void deleteList(node*& start){
+    node* copyStart=start;
+    while(copyStart->link!=start){
+        copyStart=copyStart->link;
+    }
+    copyStart->link=NULL;
+    node* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->link;
+        delete toDelete;
     }
 }
 
@@ -151,5 +151,8 @@ int main(){
     cout<<"\n-----Print cyclic list after unite ---"<<endl;
     unite(start);
     printCyclicList(start);
+    
+    deleteList(start);
+
     return 0;
 }
