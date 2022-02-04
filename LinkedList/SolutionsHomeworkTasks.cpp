@@ -68,10 +68,7 @@ node<int>* range(int x, int y){
             previousNode=newNode;
             x++;
         }
-        newNode=NULL;
         delete newNode;
-        previousNode=NULL;
-        delete previousNode;
     }
     return start;
 }
@@ -83,7 +80,6 @@ void removeAll(node<int>*& start, int elem){
         while(start && start->inf==elem){
             toDelete=start;
             start=start->link;
-            toDelete=NULL;
             delete toDelete;
         }
         if(start){
@@ -92,7 +88,6 @@ void removeAll(node<int>*& start, int elem){
                 if(copyStart->link->inf==elem){
                     toDelete=copyStart->link;
                     previousNode->link=toDelete->link;
-                    toDelete=NULL;
                     delete toDelete;
                 }
                 else{
@@ -100,10 +95,6 @@ void removeAll(node<int>*& start, int elem){
                     previousNode=copyStart;
                 }
             }
-            copyStart=NULL;
-            delete copyStart;
-            previousNode=NULL;
-            delete previousNode;
         }
     }
 }
@@ -127,11 +118,6 @@ void append(node<T>*& l1, node<T>* l2){
                 previousNode=newNode;
                 l2=l2->link;
             }
-            copyL1=NULL;
-            delete copyL1;
-            previousNode=NULL;
-            delete previousNode;
-            newNode=NULL;
             delete newNode;
         }
         else{
@@ -170,9 +156,6 @@ node<T>* concat(node<T>* l1, node<T>* l2){
             previousNode=newNode;
             l2=l2->link;
         }
-        previousNode=NULL;
-        delete previousNode;
-        newNode=NULL;
         delete newNode;
     }
     else{
@@ -200,24 +183,15 @@ void map(node<int>*& start,int (*f)(int&)){
 template <typename T>
 void reverse(node<T>*& start){
     if(start && start->link){
-        node<T>* copyStart=start,*previousNode=NULL;
-        start=new node<T>;
-        assert(start!=NULL);
-        start->inf=copyStart->inf;
-        start->link=NULL;
-        previousNode=start;
-        copyStart=copyStart->link;
-        while(copyStart){
-            start=new node<T>;
-            assert(start!=NULL);
-            start->inf=copyStart->inf;
-            start->link=previousNode;
-            previousNode=start;
-            copyStart=copyStart->link;
+        node<T>* tempNode=start, *nextNode=NULL, *previousNode=NULL;
+        while(tempNode->link){
+            nextNode=tempNode->link;
+            tempNode->link=previousNode;
+            previousNode=tempNode;
+            tempNode=nextNode;
         }
-        delete copyStart;
-        previousNode=NULL;
-        delete previousNode;
+        tempNode->link=previousNode;
+        start=tempNode;
     }
 }
 
@@ -228,7 +202,6 @@ bool hasElement(const T& elem, node<T>* start){
         while(start){
             if(start->inf==elem){
                 return true;
-                break;
             }
             start=start->link;
         }
@@ -241,7 +214,6 @@ bool duplicates(node<T>* start){
         while(start){
             if(hasElement(start->inf, start->link)){
                 return true;
-                break;
             }
             start=start->link;
         }
@@ -257,7 +229,6 @@ void removeDuplicates(node<T>*& start){
         while(start->link && hasElement(start->inf, start->link)){
             toDelete=start;
             start=start->link;
-            toDelete=NULL;
             delete toDelete;
         }
         if(start->link){
@@ -267,7 +238,6 @@ void removeDuplicates(node<T>*& start){
                     toDelete=copyStart;
                     copyStart=copyStart->link;
                     previousNode->link=toDelete->link;
-                    toDelete=NULL;
                     delete toDelete;
                 }
                 else{
@@ -275,10 +245,6 @@ void removeDuplicates(node<T>*& start){
                     copyStart=copyStart->link;
                 }
             }
-            previousNode=NULL;
-            delete previousNode;
-            copyStart=NULL;
-            delete copyStart;
         }
     }
 }
@@ -360,16 +326,12 @@ bool palindrom(node<T>* start){
         while(firstPart){
             if(firstPart->inf!=secondPart->inf){
                 isPalindrome=false;
-                break;
             }
             firstPart=firstPart->link;
             secondPart=secondPart->link;
         }
         delete firstPart;
         delete secondPart;
-        previousNode=NULL;
-        delete previousNode;
-        newNode=NULL;
         delete newNode;
     }
     return isPalindrome;
