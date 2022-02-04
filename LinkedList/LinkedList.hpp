@@ -30,7 +30,6 @@ template <typename T>
 class LinkedList{
 public:
     LinkedList();
-    LinkedList(node<T>*, node<T>*);
     LinkedList(const LinkedList<T>&);
     LinkedList<T>& operator=(const LinkedList<T>&);
     ~LinkedList();
@@ -87,9 +86,6 @@ void LinkedList<T>::copyLinkedList(const LinkedList<T>& other){
             previousNode=end;
             copyOtherStart=copyOtherStart->link;
         }
-        delete copyOtherStart;
-        previousNode=NULL;
-        delete previousNode;
     }
     else{
         start=NULL;
@@ -103,7 +99,6 @@ void LinkedList<T>::deleteLinkedList(){
     while(start){
         tempNode=start;
         start=start->link;
-        tempNode=NULL;
         delete tempNode;
     }
     end=NULL;
@@ -113,12 +108,6 @@ template <typename T>
 LinkedList<T>::LinkedList(){
     start=NULL;
     end=NULL;
-}
-
-template <typename T>
-LinkedList<T>::LinkedList(node<T>* st,node<T>* en){
-    start=st;
-    end=en;
 }
 
 template <typename T>
@@ -147,21 +136,19 @@ bool LinkedList<T>::empty() const{
 
 template <typename T>
 void LinkedList<T>::toEnd(const T& elem){
-    node<T>* newEnd=new node<T>;
-    assert(newEnd!=NULL);
-    newEnd->inf=elem;
-    newEnd->link=NULL;
-    if(!empty()){
-        end->link=newEnd;
-        end=newEnd;
+    node<T>* previousEnd=end;
+    end=new node<T>;
+    assert(end!=NULL);
+    end->inf=elem;
+    end->link=NULL;
+    if(start){
+        previousEnd->link=end;
     }
     else{
-        start=newEnd;
-        end=start;
+        start=end;
     }
-    newEnd=NULL;
-    delete newEnd;
 }
+
 
 template <typename T>
 void LinkedList<T>::insertAfter(node<T>* p, const T& elem){
@@ -173,7 +160,6 @@ void LinkedList<T>::insertAfter(node<T>* p, const T& elem){
     if(p==end){
         end=newNode;
     }
-    newNode=NULL;
     delete newNode;
 }
 
@@ -193,10 +179,7 @@ void LinkedList<T>::insertBefore(node<T>* p, const T& elem){
         }
         copyStart->link=newNode;
     }
-    newNode=NULL;
     delete newNode;
-    copyStart=NULL;
-    delete copyStart;
 }
 
 template <typename T>
@@ -210,7 +193,6 @@ void LinkedList<T>::deleteAfter(node<T>* p){
         if(toDelete==end){
             end=p;
         }
-        toDelete=NULL;
         delete toDelete;
     }
 }
@@ -223,10 +205,8 @@ void LinkedList<T>::deleteBefore(node<T>* p){
     else{
         node<T>* toDelete=NULL;
         if(start->link==p){
-            //node<T>* toDelete=NULL;
             toDelete=start;
             start=start->link;
-            toDelete=NULL;
             delete toDelete;
         }
         else{
@@ -236,7 +216,6 @@ void LinkedList<T>::deleteBefore(node<T>* p){
             }
             toDelete=copyStart;
             *copyStart=*copyStart->link;
-            toDelete=NULL;
             delete toDelete;
         }
     }
@@ -247,7 +226,6 @@ void LinkedList<T>::deleteElem(node<T>* p){
     if(p==start){
         node<T>* toDelete=start;
         start=start->link;
-        toDelete=NULL;
         delete toDelete;
     }
     else{
@@ -259,10 +237,7 @@ void LinkedList<T>::deleteElem(node<T>* p){
         if(p==end){
             end=copyStart;
         }
-        p=NULL;
         delete p;
-        copyStart=NULL;
-        delete copyStart;
     }
 }
 
@@ -279,7 +254,6 @@ void LinkedList<T>::print() const{
             }
             copyStart=copyStart->link;
         }
-        delete copyStart;
     }
     else{
         cout<<"Empty list!"<<endl;
@@ -294,7 +268,6 @@ int LinkedList<T>::length() const{
         len++;
         copyStart=copyStart->link;
     }
-    delete copyStart;
     return len;
 }
 
@@ -306,31 +279,22 @@ void LinkedList<T>::concat(const LinkedList<T>& other){
             toEnd(copyOtherStart->inf);
             copyOtherStart=copyOtherStart->link;
         }
-        delete copyOtherStart;
     }
 }
 
 template <typename T>
 void LinkedList<T>::reverse(){
     if(!empty() && start!=end){
-        node<T>* copyStart=start,*previousNode=NULL;
-        end=new node<T>;
-        assert(end!=NULL);
-        end->inf=copyStart->inf;
-        end->link=NULL;
-        previousNode=end;
-        copyStart=copyStart->link;
-        while(copyStart){
-            start=new node<T>;
-            assert(start!=NULL);
-            start->inf=copyStart->inf;
-            start->link=previousNode;
-            previousNode=start;
-            copyStart=copyStart->link;
+        node<T>* tempNode=start, *nextNode=NULL, *previousNode=NULL;
+        start=end;
+        end=tempNode;
+        while(tempNode!=start){
+            nextNode=tempNode->link;
+            tempNode->link=previousNode;
+            previousNode=tempNode;
+            tempNode=nextNode;
         }
-        delete copyStart;
-        previousNode=NULL;
-        delete previousNode;
+        tempNode->link=previousNode;
     }
 }
 
