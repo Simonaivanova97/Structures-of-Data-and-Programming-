@@ -46,6 +46,15 @@ int countDigit(int number){
     return count;
 }
 
+void deleteList(Node*& start){
+    Node* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->next;
+        delete toDelete;
+    }
+}
+
 void inc(Node*& start){
     int count=0, lengthList=lenOfList(start);
     int firstNumber=0, secondNumber=0, degree=lengthList/2-1;
@@ -68,6 +77,8 @@ void inc(Node*& start){
     }
     firstNumber--;
     secondNumber++;
+    
+    deleteList(start);
     Node* previousNode=NULL, *newNode=NULL;
     start=new Node;
     assert(start!=NULL);
@@ -100,10 +111,6 @@ void inc(Node*& start){
         degree--;
     }
     previousNode->next=NULL;
-    newNode=NULL;
-    delete newNode;
-    previousNode=NULL;
-    delete previousNode;
 }
 
 int main() {
@@ -139,5 +146,8 @@ int main() {
     cout<<"\n---Print list aftre function inc---"<<endl;
     inc(start);
     print(start);
+    
+    deleteList(start);
+
     return 0;
 }
