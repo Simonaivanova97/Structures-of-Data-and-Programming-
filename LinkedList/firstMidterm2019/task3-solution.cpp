@@ -116,16 +116,10 @@ bool dupsub(node<T>* start, int k){
                 return true;
                 break;
             }
-            smallerList=NULL;
             delete smallerList;
-            biggerList=NULL;
-            delete biggerList;
-            copyStart=NULL;
-            delete copyStart;
-            prevN=NULL;
-            delete prevN;
-            newNode=NULL;
-            delete newNode;
+            if(newNode!=NULL){
+                delete newNode;
+            }
             start=start->link;
         }
     }
@@ -133,6 +127,16 @@ bool dupsub(node<T>* start, int k){
         cout<<"Invalid value for k!"<<endl;
     }
     return false;
+}
+
+template <typename T>
+void deleteList(node<int>*& start){
+    node<T>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->link;
+        delete toDelete;
+    }
 }
 
 int main() {
@@ -174,5 +178,7 @@ int main() {
         cout<<"> No"<<endl;
     }
     
+    deleteList<int>(start);
+
     return 0;
 }
