@@ -99,6 +99,16 @@ void equalize(Node<stack<T> >*& start){
     }
 }
 
+template <typename T>
+void deleteList(Node<T>*& start){
+    Node<T>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->next;
+        delete toDelete;
+    }
+}
+
 int main(){
     
     stack<int> s1,s2,s3,s4;
@@ -141,5 +151,8 @@ int main(){
     cout<<"\n---After equalize---"<<endl;
     equalize(start);
     print(start);
+    
+    deleteList(start);
+
     return 0;
 }
