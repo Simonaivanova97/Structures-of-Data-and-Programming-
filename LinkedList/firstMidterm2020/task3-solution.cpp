@@ -42,10 +42,6 @@ void shuffle(Node<T>*& start){
             tempStart->next=start;
             start=tempStart;
         }
-        copyStar=NULL;
-        delete copyStar;
-        tempStart=NULL;
-        delete tempStart;
     }
 }
 
@@ -66,6 +62,17 @@ void print(Node<T>* start){
         cout<<"Empty list!"<<endl;
     }
 }
+
+template <typename T>
+void deleteList(Node<T>*& start){
+    Node<T>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->next;
+        delete toDelete;
+    }
+}
+
 int main(){
     
     Node<int>* start=NULL, *first=NULL, *second=NULL, *thirth=NULL, *fourth=NULL;
@@ -90,5 +97,8 @@ int main(){
     cout<<"\n---After shuffle---"<<endl;
     shuffle(start);
     print(start);
+    
+    deleteList(start);
+
     return 0;
 }
