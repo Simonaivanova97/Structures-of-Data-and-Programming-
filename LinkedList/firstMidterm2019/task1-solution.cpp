@@ -49,7 +49,17 @@ void fillgaps(node<int>*& start){
                 previousNode=copyStart;
             }
         }
-        delete newNode;
+        // Remove this delete, becouse at the end, delete all dynamic memory with function deleteList()
+        //delete newNode;
+    }
+}
+
+void deleteList(node<int>*& start){
+    node<int>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->link;
+        delete toDelete;
     }
 }
 
@@ -80,6 +90,7 @@ int main(){
     fillgaps(start);
     print(start);
     
-    delete start, first, second, thirth;
+    deleteList(start);
+
     return 0;
 }
