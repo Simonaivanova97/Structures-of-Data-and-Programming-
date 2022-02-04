@@ -32,7 +32,6 @@ void removedups(node<int>*& start){
             if(copyStart->inf==copyStart->link->inf){
                 toDelete=copyStart;
                 copyStart=copyStart->link;
-                toDelete=NULL;
                 delete toDelete;
                 if(previousNode==NULL){
                     start=copyStart;
@@ -46,10 +45,16 @@ void removedups(node<int>*& start){
                 copyStart=copyStart->link;
             }
         }
-        copyStart=NULL;
-        delete copyStart;
-        previousNode=NULL;
-        delete previousNode;
+    }
+}
+
+template <typename T>
+void deleteList(node<T>*& start){
+    node<T>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->link;
+        delete toDelete;
     }
 }
 
@@ -93,6 +98,7 @@ int main() {
     removedups(start);
     print(start);
     
+    deleteList(start);
     return 0;
 }
 
