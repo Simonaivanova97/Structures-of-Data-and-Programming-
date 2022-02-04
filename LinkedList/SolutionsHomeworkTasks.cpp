@@ -449,5 +449,7 @@ int main() {
     else{
         cout<<"> No"<<endl;
     }
+    
+    delete start, first, second, thirth, fourth, fifth, sixth, start2, first2, second2, thi, fourth2;
     return 0;
 }
