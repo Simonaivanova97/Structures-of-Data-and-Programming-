@@ -49,11 +49,6 @@ void fillgaps(node<int>*& start){
                 previousNode=copyStart;
             }
         }
-        copyStart=NULL;
-        delete copyStart;
-        previousNode=NULL;
-        delete previousNode;
-        newNode=NULL;
         delete newNode;
     }
 }
@@ -84,5 +79,7 @@ int main(){
     cout<<"\n---Fillgaps---"<<endl;
     fillgaps(start);
     print(start);
+    
+    delete start, first, second, thirth;
     return 0;
 }
