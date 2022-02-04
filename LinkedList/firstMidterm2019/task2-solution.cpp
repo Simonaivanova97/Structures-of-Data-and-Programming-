@@ -45,7 +45,6 @@ void removeIdx(node<int>*& start){
         while(start && start->inf==len-countElem){
             toDelete=start;
             start=start->link;
-            toDelete=NULL;
             delete toDelete;
             countElem++;
         }
@@ -58,7 +57,6 @@ void removeIdx(node<int>*& start){
                     previousNode->link=toDelete->link;
                     copyStart=previousNode->link;
                     countElem++;
-                    toDelete=NULL;
                     delete toDelete;
                 }
                 else{
@@ -67,12 +65,20 @@ void removeIdx(node<int>*& start){
                     countElem++;
                 }
             }
-            delete copyStart;
-            previousNode=NULL;
-            delete previousNode;
         }
     }
 }
+
+template <typename T>
+void deleteList(node<int>*& start){
+    node<T>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->link;
+        delete toDelete;
+    }
+}
+
 int main(){
     node<int>* start=NULL, *first=NULL, *second=NULL, *thirth=NULL, *fourth=NULL, *fifth=NULL;
     start=new node<int>;
@@ -109,5 +115,8 @@ int main(){
     cout<<"\n---Remove index---"<<endl;
     removeIdx(start);
     print(start);
+    
+    deleteList<int>(start);
+    
     return 0;
 }
