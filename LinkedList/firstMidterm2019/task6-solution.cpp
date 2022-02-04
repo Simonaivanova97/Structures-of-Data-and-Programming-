@@ -54,15 +54,17 @@ void removesub(node<T>*& firstList, node<T>* secondList){
                     firstList=copyFirstList;
                 }
             }
-            tempList=NULL;
-            delete tempList;
-            copySecond=NULL;
-            delete copySecond;
         }
-        copyFirstList=NULL;
-        delete copyFirstList;
-        previousNode=NULL;
-        delete previousNode;
+    }
+}
+
+template <typename T>
+void deleteList(node<T>*& start){
+    node<T>* toDelete=NULL;
+    while(start){
+        toDelete=start;
+        start=start->link;
+        delete toDelete;
     }
 }
 
@@ -130,7 +132,8 @@ int main() {
     removesub(start, start2);
     print(start);
     
-    
+    deleteList(start);
+
     return 0;
 }
 
